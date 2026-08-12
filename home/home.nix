@@ -19,6 +19,26 @@
     lazygit
   ];
 
+  programs.git = {
+    enable = true;
+
+    includes = [
+      { path = "~/.config/git/config.local"; }
+    ];
+  };
+
+  home.sessionVariables = {
+    DOTNET_CLI_HOME = "${config.xdg.dataHome}/dotnet";
+    NUGET_PACKAGES = "${config.xdg.cacheHome}/NuGetPackages";
+
+    CARGO_HOME = "${config.xdg.dataHome}/cargo";
+
+    NPM_CONFIG_USERCONFIG = "${config.xdg.configHome}/npm/npmrc";
+    NPM_CONFIG_CACHE = "${config.xdg.cacheHome}/npm";
+
+    GTK2_RC_FILES = "${config.xdg.configHome}/gtk-2.0/gtkrc";
+  };
+
   programs.alacritty = {
     enable = true;
     settings = {
@@ -31,9 +51,18 @@
 
   programs.zsh = {
    enable = true;
+
+   dotDir = "${config.xdg.configHome}/zsh";
+   
    enableCompletion = true;
    autosuggestion.enable = true;
    syntaxHighlighting.enable = true;
+
+   history = {
+      size = 10000;
+      save = 10000;
+      path = "${config.xdg.dataHome}/zsh/history";
+   };
 
    shellAliases = {
      ll = "ls -l";
@@ -43,11 +72,6 @@
      lg = "lazygit";
      tldr = "tldr --short-options";
    };
-
-   initContent = ''
-     HISTSIZE=10000
-     SAVEHIST=10000
-   '';
 
    oh-my-zsh = {
      enable = true;

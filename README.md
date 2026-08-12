@@ -15,6 +15,20 @@ then proceed with *home-manager*:
 home-manager switch --flake .#xir
 ```
 
+### Git Config
+
+Create a local file with name/email:
+
+```sh
+mkdir -p ~/.config/git
+
+cat << 'EOF' > ~/.config/git/config.local
+[user]
+    name = Your Name
+    email = your.email@example.com
+EOF
+```
+
 ## Sources
 
 - Nix Manual: https://nix.dev/manual/nix/2.35/
