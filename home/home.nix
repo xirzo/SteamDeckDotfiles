@@ -16,6 +16,7 @@
     opencode-desktop
     telegram-desktop
     prismlauncher
+    lazygit
   ];
 
   programs.alacritty = {
@@ -58,15 +59,19 @@
  programs.tmux = {
     enable = true;
 
+    shell = "${pkgs.zsh}/bin/zsh";
+
     shortcut = "q";
-
     mouse = true;
-
     keyMode = "vi";
+    historyLimit = 50000;
+
+    plugins = with pkgs; [
+      tmuxPlugins.better-mouse-mode
+    ];
 
     extraConfig = ''
       # Environment and Clipboard
-      set-environment -g PATH "/usr/local/bin:/bin:/usr/bin"
       set -g set-clipboard on
       set -s copy-command 'xclip -in -selection clipboard'
 
