@@ -1,0 +1,91 @@
+{ config, pkgs, ... }:
+
+{
+  home.username = "xir";
+  home.homeDirectory = "/home/xir";
+
+  home.stateVersion = "26.05";
+
+  programs.home-manager.enable = true;
+  programs.vim.enable = true;
+
+  home.packages = with pkgs; [ 
+    docker
+    docker-compose
+    qbittorrent 
+    opencode-desktop
+    telegram-desktop
+    prismlauncher
+  ];
+
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      terminal.shell = {
+        program = "${pkgs.zsh}/bin/zsh";
+        args = [ "--login" ];
+      };
+    };
+  };
+
+  programs.zsh = {
+   enable = true;
+   enableCompletion = true;
+   autosuggestion.enable = true;
+   syntaxHighlighting.enable = true;
+
+   shellAliases = {
+     ll = "ls -l";
+     update = "sudo nixos-rebuild switch";
+     v = "vim";
+     g = "git";
+     lg = "lazygit";
+     tldr = "tldr --short-options";
+   };
+
+   initContent = ''
+     HISTSIZE=10000
+     SAVEHIST=10000
+   '';
+
+   oh-my-zsh = {
+     enable = true;
+     plugins = [ "git" "docker" "docker-compose" ];
+     theme = "robbyrussell";
+   };
+ };
+
+ programs.tmux = {
+    enable = true;
+
+    shortcut = "q";
+
+    mouse = true;
+
+    keyMode = "vi";
+
+    extraConfig = ''
+      # Environment and Clipboard
+      set-environment -g PATH "/usr/local/bin:/bin:/usr/bin"
+      set -g set-clipboard on
+      set -s copy-command 'xclip -in -selection clipboard'
+
+      # Interface and Layout
+      set-option -g status-position top
+
+      # Navigation Keybindings
+      bind h select-pane -L
+      bind j select-pane -D
+      bind k select-pane -U
+      bind l select-pane -R
+
+      # Vi Copy-Mode Keybindings
+      bind-key -T copy-mode-vi v send -X begin-selection
+      bind-key -T copy-mode-vi V send -X select-line
+      bind-key -T copy-mode-vi y send -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
+
+      # Config Reload Binding
+      bind r source-file ~/.config/tmux/tmux.conf \; display "Config reloaded!"
+    '';
+  };
+}
