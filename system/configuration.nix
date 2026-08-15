@@ -154,6 +154,7 @@
     enable = true;
     user = "xir";
   };
+  jovian.hardware.has.amd.gpu = true;
 
   programs.xwayland.enable = true;
 
