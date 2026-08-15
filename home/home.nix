@@ -19,6 +19,10 @@
     lazygit
   ];
 
+  services.syncthing = {
+    enable = true;
+  };
+
   programs.git = {
     enable = true;
 
