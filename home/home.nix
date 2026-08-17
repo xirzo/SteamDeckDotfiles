@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, inputs, pkgs, freesmlauncher, ... }:
 
 {
   home.username = "xir";
@@ -17,6 +17,7 @@
     telegram-desktop
     prismlauncher
     lazygit
+    inputs.freesmlauncher.packages.${pkgs.stdenv.hostPlatform.system}.freesmlauncher
   ];
 
   services.syncthing = {
