@@ -72,12 +72,8 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
+    # jack.enable = true; # If you want to use JACK applications, uncomment this
+    wireplumber.enable = true; 
   };
 
   virtualisation.docker.enable = true;
@@ -146,8 +142,11 @@
   system.stateVersion = "26.05"; # Did you read the comment?
 
   jovian.devices.steamdeck.enable = true;
+  jovian.devices.steamdeck.autoUpdate = false;
   jovian.steam.enable = true;
   jovian.steam.autoStart = true;
+  jovian.devices.steamdeck.enableFwupdBiosUpdates  = true;
+  jovian.devices.steamdeck.enableSoundSupport = true;
   jovian.steam.user = "xir";
   jovian.steam.desktopSession = "plasma";
   jovian.decky-loader = {
@@ -163,6 +162,12 @@
     # Add any missing dynamic libraries for unpackaged programs
     # here, NOT in environment.systemPackages
 
+  ];
+
+  nixpkgs.config.allowUnfreePackages = [
+    "steam"
+    "steam-unwrapped"
+    "steam-jupiter-unwrapped"
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
