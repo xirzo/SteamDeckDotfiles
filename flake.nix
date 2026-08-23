@@ -14,11 +14,20 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-filter = {
+      url = "github:numtide/nix-filter";
+    };
+
+    libnbtplusplus = {
+      url = "github:FreesmTeam/libnbtplusplus";
+      flake = false;
+    };
+
     freesmlauncher = {
       url = "github:FreesmTeam/FreesmLauncher";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.nix-filter.follows = "";
-      inputs.libnbtplusplus.follows = "";
+      inputs.nix-filter.follows = "nix-filter";
+      inputs.libnbtplusplus.follows = "libnbtplusplus";
     };
   };
 
@@ -37,7 +46,12 @@
     homeConfigurations."xir" = home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
       extraSpecialArgs = { inherit inputs; };
-      modules = [ ./home/home.nix ];
+      modules = [
+        ./home/home.nix 
+        {
+          nixpkgs.overlays = [ freesmlauncher.overlays.default ];
+        }
+      ];
     };
   };
 }
