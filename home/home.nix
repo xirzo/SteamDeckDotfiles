@@ -15,8 +15,9 @@
     qbittorrent 
     opencode-desktop
     telegram-desktop
-    prismlauncher
     lazygit
+    prismlauncher
+    freesmlauncher
   ];
 
   services.syncthing = {
